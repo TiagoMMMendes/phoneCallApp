@@ -1,9 +1,12 @@
 import "./App.css";
-
+import Navbar from "./components/Navbar";
+import "bootstrap/dist/css/bootstrap.css";
+import Calls from "./components/Calls";
 function App() {
   return (
     <>
-      <h1>Phone Call App</h1>
+      <Navbar />
+      <Calls />
     </>
   );
 }

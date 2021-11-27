@@ -1,0 +1,27 @@
+{
+  "calls": [
+    {
+      "callerId": "351123123",
+      "callerIdType": "phoneNumber",
+      "id": 1
+    },
+    {
+      "callerId": "351962562196",
+      "callerIdType": "phoneNumber",
+      "timeStamp": "1638026737035",
+      "id": 2
+    },
+    {
+      "callerId": "351962562196",
+      "callerIdType": "phoneNumber",
+      "timeStamp": 1638026754992,
+      "id": 3
+    },
+    {
+      "callerId": "351123412",
+      "callerIdType": "phoneNumber",
+      "timeStamp": 1638027389646,
+      "id": 4
+    }
+  ]
+}
