@@ -27,22 +27,23 @@ function Calls() {
   }
 
   function activateCall(call) {
-    axios
-      .put(url + `/${call.id}`, {
-        ...call,
-        state: "ACTIVE",
-        timeStamp: new Date().getTime(),
-      })
-      .then((response) => {
-        getCalls();
-      })
-      .catch((error) => console.log(error));
+    if (calls.find((value) => value.id === call.id))
+      axios
+        .put(url + `/${call.id}`, {
+          ...call,
+          state: "ACTIVE",
+          timeStamp: new Date().getTime(),
+        })
+        .then((response) => {
+          getCalls();
+        })
+        .catch((error) => console.log(error));
   }
+
   function startCall(call) {
     axios
       .post(url, call)
       .then(function (response) {
-        console.log(response.data);
         getCalls();
         setTimeout(
           () => activateCall(response.data),
@@ -51,6 +52,14 @@ function Calls() {
       })
       .catch((error) => console.log(error));
   }
+
+  function endCall(call) {
+    axios
+      .delete(url + `/${call.id}`)
+      .then(() => getCalls())
+      .catch((error) => console.log(error));
+  }
+
   return (
     <>
       <div className="row">
@@ -58,7 +67,7 @@ function Calls() {
           <CreateCall startCall={startCall} />
           <div className="row p-md-0 pt-md-2">
             {calls.map((call) => (
-              <Callcard call={call} key={call.id} />
+              <Callcard call={call} key={call.id} endCall={endCall} />
             ))}
           </div>
         </div>

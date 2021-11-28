@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Callcard.css";
 function Callcard(props) {
-  const call = props.call;
+  const { call, endCall } = props;
   const calculateDuration = function () {
     if (call.state === "RING") return "00:00:00";
     const milisecondsDiff = new Date().getTime() - call.timeStamp;
@@ -25,6 +25,7 @@ function Callcard(props) {
       if (interval) clearInterval(interval);
     };
   }, [call]);
+
   return (
     <div className="col-md-6">
       <div className="card">
@@ -42,6 +43,7 @@ function Callcard(props) {
               borderRadius: "50%",
               float: "right",
             }}
+            onClick={() => endCall(call)}
           >
             <i
               className="bi bi-telephone hang-out-icon"
