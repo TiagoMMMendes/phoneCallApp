@@ -1,3 +1,9 @@
-var data = new Date();
+var x = (value) => {
+  console.log(value);
+};
+const we = {};
+we["1"] = setTimeout(() => {
+  x("x");
+}, 1000);
 
-console.log(new Date().getTime().toString());
+console.log(we["1"]);

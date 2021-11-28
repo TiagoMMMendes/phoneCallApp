@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Calls.css";
 import CreateCall from "./CreateCall";
 import axios from "axios";
 import Callcard from "./Callcard";
+import delayAdapterEnhancer from "axios-delay";
 
 function Calls() {
   const [calls, setCalls] = useState([]);
+  const [cachedCalls, setCachedCalls] = useState({});
   const url = "http://localhost:8000/calls";
+
+  const cachedCallsRef = useRef(cachedCalls);
+  cachedCallsRef.current = cachedCalls;
+
+  const api = axios.create({
+    adapter: delayAdapterEnhancer(axios.defaults.adapter),
+  });
 
   function randomIntFromInterval(min, max) {
     // min and max included
@@ -17,17 +26,19 @@ function Calls() {
     getCalls();
   }, []);
 
-  function getCalls() {
-    axios
-      .get(url + "?_sort=timeStamp&_order=desc")
+  const getCalls = () => {
+    api
+      .get(url + "?_sort=timeStamp&_order=desc", {
+        delay: 1000, // delay 1 second
+      })
       .then((response) => {
         setCalls(response.data);
       })
       .catch((error) => console.log(error));
-  }
+  };
 
-  function activateCall(call) {
-    if (calls.find((value) => value.id === call.id))
+  const activateCall = (call, cachedCalls) => {
+    if (cachedCalls[call.id])
       axios
         .put(url + `/${call.id}`, {
           ...call,
@@ -38,27 +49,32 @@ function Calls() {
           getCalls();
         })
         .catch((error) => console.log(error));
-  }
+  };
 
-  function startCall(call) {
+  const startCall = (call) => {
     axios
       .post(url, call)
       .then(function (response) {
+        cachedCalls[response.data.id] = true;
+        setCachedCalls(cachedCalls);
+        setTimeout(() => {
+          activateCall(response.data, cachedCallsRef.current);
+        }, randomIntFromInterval(1000, 10000));
         getCalls();
-        setTimeout(
-          () => activateCall(response.data),
-          randomIntFromInterval(1000, 10000)
-        );
       })
       .catch((error) => console.log(error));
-  }
+  };
 
-  function endCall(call) {
+  const endCall = (call) => {
+    if (cachedCalls[call.id]) {
+      delete cachedCalls[call.id];
+      setCachedCalls(cachedCalls);
+    }
     axios
       .delete(url + `/${call.id}`)
       .then(() => getCalls())
       .catch((error) => console.log(error));
-  }
+  };
 
   return (
     <>

@@ -1,3 +1,18 @@
 {
-  "calls": []
+  "calls": [
+    {
+      "callerId": "4324324324",
+      "callerIdType": "phoneNumber",
+      "timeStamp": 1638122709847,
+      "state": "ACTIVE",
+      "id": 1
+    },
+    {
+      "callerId": "123123",
+      "callerIdType": "phoneNumber",
+      "timeStamp": 1638122738944,
+      "state": "ACTIVE",
+      "id": 2
+    }
+  ]
 }
