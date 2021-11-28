@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./CreateCall.css";
+import { CallStates } from "../util";
 
 function CreateCall(props) {
   const [callerIdType, setCallerIdType] = useState("phoneNumber");
@@ -12,7 +13,7 @@ function CreateCall(props) {
       callerId: callerId,
       callerIdType: callerIdType,
       timeStamp: new Date().getTime(),
-      state: "RING",
+      state: CallStates.Ring,
     });
   }
 
