@@ -7,6 +7,7 @@ function CreateCall(props) {
 
   function onSubmit(event) {
     event.preventDefault();
+    setCallerId("");
     props.startCall({
       callerId: callerId,
       callerIdType: callerIdType,
@@ -42,6 +43,7 @@ function CreateCall(props) {
             type="text"
             className="form-control"
             id="callerId"
+            value={callerId}
             required
             onChange={(event) => callerIdChange(event)}
           />
@@ -52,8 +54,6 @@ function CreateCall(props) {
           </button>
         </div>
       </form>
-
-      <h3>{callerId}</h3>
     </div>
   );
 }

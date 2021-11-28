@@ -1,3 +1,6 @@
 .navbar-container {
   background-color: aquamarine;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }

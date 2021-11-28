@@ -1,0 +1,3 @@
+.hang-out-icon::before {
+  transform: rotate(135deg);
+}
