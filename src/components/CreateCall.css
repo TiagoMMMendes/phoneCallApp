@@ -3,3 +3,8 @@
   border: 1px solid grey;
   margin-top: 5px;
 }
+@media (max-width: 565px) {
+  .submit-button-container {
+    padding-top: 10px;
+  }
+}

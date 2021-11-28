@@ -29,7 +29,7 @@ function Calls() {
   const getCalls = () => {
     api
       .get(url + "?_sort=timeStamp&_order=desc", {
-        delay: 1000, // delay 1 second
+        delay: randomIntFromInterval(100, 1000),
       })
       .then((response) => {
         setCalls(response.data);
@@ -39,12 +39,18 @@ function Calls() {
 
   const activateCall = (call, cachedCalls) => {
     if (cachedCalls[call.id])
-      axios
-        .put(url + `/${call.id}`, {
-          ...call,
-          state: "ACTIVE",
-          timeStamp: new Date().getTime(),
-        })
+      api
+        .put(
+          url + `/${call.id}`,
+          {
+            ...call,
+            state: "ACTIVE",
+            timeStamp: new Date().getTime(),
+          },
+          {
+            delay: randomIntFromInterval(100, 1000),
+          }
+        )
         .then((response) => {
           getCalls();
         })
@@ -52,8 +58,10 @@ function Calls() {
   };
 
   const startCall = (call) => {
-    axios
-      .post(url, call)
+    api
+      .post(url, call, {
+        delay: randomIntFromInterval(100, 1000),
+      })
       .then(function (response) {
         cachedCalls[response.data.id] = true;
         setCachedCalls(cachedCalls);
@@ -70,8 +78,10 @@ function Calls() {
       delete cachedCalls[call.id];
       setCachedCalls(cachedCalls);
     }
-    axios
-      .delete(url + `/${call.id}`)
+    api
+      .delete(url + `/${call.id}`, {
+        delay: randomIntFromInterval(100, 1000),
+      })
       .then(() => getCalls())
       .catch((error) => console.log(error));
   };

@@ -17,11 +17,18 @@ function CreateCall(props) {
   }
 
   function callerIdTypeChange(event) {
+    setCallerId("");
     if (event && event.target.value) setCallerIdType(event.target.value);
   }
 
   function callerIdChange(event) {
-    if (event && event.target) setCallerId(event.target.value);
+    if (event && event.target) {
+      if (callerIdType === "phoneNumber") {
+        setCallerId(event.target.value.replace(/\D/g, ""));
+      } else {
+        setCallerId(event.target.value.replace(/[0-9]/g, ""));
+      }
+    }
   }
 
   return (
@@ -48,7 +55,7 @@ function CreateCall(props) {
             onChange={(event) => callerIdChange(event)}
           />
         </div>
-        <div className="col-auto">
+        <div className="col-auto submit-button-container">
           <button type="submit" className="btn btn-primary">
             Start Call
           </button>
