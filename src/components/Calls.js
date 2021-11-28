@@ -4,6 +4,7 @@ import CreateCall from "./CreateCall";
 import axios from "axios";
 import Callcard from "./Callcard";
 import delayAdapterEnhancer from "axios-delay";
+import { randomIntFromInterval, CallStates } from "../util";
 
 function Calls() {
   const [calls, setCalls] = useState([]);
@@ -16,11 +17,6 @@ function Calls() {
   const api = axios.create({
     adapter: delayAdapterEnhancer(axios.defaults.adapter),
   });
-
-  function randomIntFromInterval(min, max) {
-    // min and max included
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
 
   useEffect(() => {
     getCalls();
@@ -44,7 +40,7 @@ function Calls() {
           url + `/${call.id}`,
           {
             ...call,
-            state: "ACTIVE",
+            state: CallStates.Active,
             timeStamp: new Date().getTime(),
           },
           {

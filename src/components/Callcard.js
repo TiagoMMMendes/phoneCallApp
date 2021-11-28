@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { CallStates } from "../util";
 import "./Callcard.css";
 function Callcard(props) {
   const { call, endCall } = props;
   const calculateDuration = function () {
-    if (call.state === "RING") return "00:00:00";
+    if (call.state === CallStates.Ring) return "00:00:00";
     const milisecondsDiff = new Date().getTime() - call.timeStamp;
     var date = new Date(0);
     date.setMilliseconds(milisecondsDiff);
@@ -18,7 +19,7 @@ function Callcard(props) {
 
   useEffect(() => {
     let interval;
-    if (call.state === "ACTIVE")
+    if (call.state === CallStates.Active)
       interval = setInterval(() => setDurationAfter1s(), 1000);
 
     return () => {
@@ -51,7 +52,9 @@ function Callcard(props) {
             ></i>
           </button>
           <p className="card-text">
-            {call.state === "RING" ? "Ringing..." : `Duration: ${duration}`}
+            {call.state === CallStates.Ring
+              ? "Ringing..."
+              : `Duration: ${duration}`}
           </p>
         </div>
       </div>
